@@ -1,0 +1,30 @@
+name: Run tests
+on:
+  - push
+  - pull_request
+  - merge_group
+jobs:
+  linting:
+    name: formatting and clippy
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-features --all-targets -- -Dwarnings
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: script/download-test-data.sh
+      - run: cargo build --all-targets
+      - run: cargo test
+      - run: cargo test --no-default-features
+      - run: cargo test --features test_full
+      - run: cargo bench --features test_full

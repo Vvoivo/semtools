@@ -1,0 +1,17 @@
+on: [push, pull_request]
+
+jobs:
+  check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+    - uses: dtolnay/rust-toolchain@nightly
+      with:
+        components: rustfmt, clippy
+    - run: cargo fmt -- --check
+    - run: cargo clippy --no-default-features --all-targets -- --deny warnings
+    - run: cargo clippy --all-features --all-targets -- --deny warnings

@@ -1,0 +1,97 @@
+[dependencies.bitflags]
+default-features = false
+features = ["std"]
+optional = true
+version = "2.5.0"
+
+[dependencies.block2]
+default-features = false
+features = ["alloc"]
+optional = true
+version = ">=0.6.1, <0.8.0"
+
+[dependencies.dispatch2]
+default-features = false
+features = ["alloc", "block2"]
+optional = true
+version = ">=0.3.0, <0.5.0"
+
+[dependencies.libc]
+default-features = false
+optional = true
+version = "0.2.80"
+
+[dependencies.objc2]
+default-features = false
+features = ["std"]
+optional = true
+version = ">=0.6.2, <0.8.0"
+
+[dependencies.objc2-core-foundation]
+default-features = false
+features = ["CFArray", "CFData", "CFDictionary", "CFPlugInCOM", "CFRunLoop", "CFURL", "CFUUID"]
+version = "0.3.2"
+
+[features]
+AppleUSBDefinitions = []
+IOUSBHostFamilyDefinitions = []
+IOUSBLib = ["objc2-core-foundation/CFPlugInCOM", "objc2-core-foundation/CFRunLoop", "objc2-core-foundation/CFUUID"]
+USB = []
+USBSpec = []
+alloc = []
+bitflags = ["dep:bitflags"]
+block2 = ["dep:block2"]
+default = ["std", "AppleUSBDefinitions", "IOUSBHostFamilyDefinitions", "IOUSBLib", "USB", "USBSpec", "bitflags", "block2", "dispatch2", "graphics", "hid", "hidsystem", "libc", "network", "objc2", "ps", "pwr_mgt", "serial", "usb"]
+dispatch2 = ["dep:dispatch2"]
+graphics = ["objc2-core-foundation/CFDictionary", "objc2-core-foundation/CFPlugInCOM", "objc2-core-foundation/CFUUID"]
+hid = ["bitflags", "objc2-core-foundation/CFArray", "objc2-core-foundation/CFDate", "objc2-core-foundation/CFDictionary", "objc2-core-foundation/CFPlugInCOM", "objc2-core-foundation/CFRunLoop", "objc2-core-foundation/CFSet", "objc2-core-foundation/CFUUID"]
+hidsystem = ["objc2-core-foundation/CFArray", "objc2-core-foundation/CFDictionary"]
+libc = ["dep:libc"]
+network = []
+objc2 = ["dep:objc2", "dispatch2?/objc2", "objc2-core-foundation/objc2"]
+ps = ["objc2-core-foundation/CFArray", "objc2-core-foundation/CFDate", "objc2-core-foundation/CFDictionary", "objc2-core-foundation/CFPlugInCOM", "objc2-core-foundation/CFRunLoop", "objc2-core-foundation/CFSet", "objc2-core-foundation/CFUUID"]
+pwr_mgt = ["objc2-core-foundation/CFArray", "objc2-core-foundation/CFDate", "objc2-core-foundation/CFDictionary"]
+serial = []
+std = ["alloc"]
+unstable-darwin-objc = []
+usb = []
+
+[lib]
+path = "src/lib.rs"
+
+[lints.clippy]
+ptr_as_ptr = "warn"
+redundant_feature_names = "allow"
+
+[lints.clippy.cargo]
+level = "warn"
+priority = -1
+
+[lints.rust]
+elided_lifetimes_in_paths = "warn"
+missing_copy_implementations = "warn"
+non_ascii_idents = "deny"
+unreachable_pub = "warn"
+unsafe_op_in_unsafe_fn = "deny"
+
+[package]
+autobenches = false
+autobins = false
+autoexamples = false
+autolib = false
+autotests = false
+categories = ["api-bindings", "development-tools::ffi", "external-ffi-bindings", "os::macos-apis"]
+description = "Bindings to the IOKit framework"
+edition = "2021"
+keywords = ["cocoa", "apple", "framework", "macos", "ios"]
+license = "Zlib OR Apache-2.0 OR MIT"
+name = "objc2-io-kit"
+readme = "README.md"
+repository = "https://github.com/madsmtm/objc2"
+rust-version = "1.71"
+version = "0.3.2"
+
+[package.metadata.docs.rs]
+default-target = "aarch64-apple-darwin"
+rustc-args = ["--cfg", "docsrs"]
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "aarch64-apple-ios", "aarch64-apple-ios-macabi", "aarch64-apple-visionos"]

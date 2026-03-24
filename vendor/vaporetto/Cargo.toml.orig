@@ -1,0 +1,39 @@
+[package]
+name = "vaporetto"
+version = "0.6.5"
+edition = "2021"
+rust-version = "1.85"
+authors = ["Koichi Akabe <vbkaisetsu@gmail.com>"]
+description = "Vaporetto: a pointwise prediction based tokenizer"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/daac-tools/vaporetto"
+repository = "https://github.com/daac-tools/vaporetto"
+readme = "README.md"
+keywords = ["japanese", "analyzer", "tokenizer", "morphological"]
+categories = ["text-processing", "no-std"]
+
+[dependencies]
+bincode = { version = "2.0.1", default-features = false, features = ["alloc", "derive"] }  # MIT
+daachorse = "1.0.0"  # MIT or Apache-2.0
+hashbrown = "0.15.2"  # MIT or Apache-2.0
+
+liblinear = { version = "1", optional = true }  # MIT
+
+[features]
+default = ["std", "cache-type-score", "fix-weight-length", "tag-prediction", "charwise-pma"]
+
+# default: on
+alloc = []
+std = ["alloc", "bincode/std"]
+cache-type-score = ["alloc"]
+fix-weight-length = ["alloc"]
+tag-prediction = ["alloc"]
+charwise-pma = ["alloc"]
+
+kytea = ["std"]
+train = ["std", "liblinear"]
+portable-simd = ["fix-weight-length"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

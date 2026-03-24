@@ -1,0 +1,21 @@
+# Copyright (C) 2023-2024 Daniel Mueller <deso@posteo.net>
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
+name: Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+  publish:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+    - name: Publish serde_variant
+      run: cargo publish --locked --no-verify --token "${CARGO_REGISTRY_TOKEN}"
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}

@@ -1,0 +1,12 @@
+[package]
+name = "binout"
+version = "0.3.1"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "The library for binary serialization/deserialization of integers and arrays of integers."
+documentation = "https://docs.rs/binout"
+repository = "https://github.com/beling/bsuccinct-rs"
+readme = "README.md"
+include = [ "**/*.rs", "Cargo.toml", "README.md" ]
+categories = ["encoding", "compression", "algorithms"]
+keywords = [ "io", "binary", "encoding", "vbyte", "leb128" ]
